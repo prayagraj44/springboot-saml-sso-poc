@@ -1,0 +1,10 @@
+spring:
+  security:
+    saml2:
+      sp:
+        metadata-uri: classpath:/saml-metadata.xml
+        entity-id: http://localhost:8080/realms/prayagrealm
+        signing:
+          credentials:
+            - private-key: classpath:/private-key.pem
+              certificate: classpath:/public-cert.pem
