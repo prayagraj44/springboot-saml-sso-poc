@@ -15,34 +15,43 @@ import org.springframework.security.saml2.provider.service.registration.RelyingP
 import org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrations;
 import org.springframework.security.web.SecurityFilterChain;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.security.interfaces.RSAPrivateKey;
 
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http
+//                .authorizeHttpRequests(authorize -> authorize
+//                        .requestMatchers("/ping").permitAll()
+//                        .requestMatchers("/").permitAll()
+//                        .requestMatchers("**").authenticated()
+//                )
+//                .logout(logout -> logout
+//                        .logoutUrl("/")
+//                )
+//                .saml2Login(withDefaults())
+//                .saml2Logout(withDefaults());
+//        return http.build();
+//    }
+
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/ping").permitAll()
-                        .requestMatchers("/").permitAll()
-                        .requestMatchers("**").authenticated()
-                )
-                .logout(logout -> logout
-                        .logoutUrl("/")
-                )
-                .saml2Login(withDefaults())
-                .saml2Logout(withDefaults());
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+        http.authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
+                .saml2Login(saml2 -> saml2.relyingPartyRegistrationRepository(relyingPartyRegistrations()));
         return http.build();
     }
 
     @Bean
-    public RelyingPartyRegistrationRepository relyingPartyRegistrations() throws Exception {
+    public RelyingPartyRegistrationRepository relyingPartyRegistrations() {
         Resource signingCertResource = new ClassPathResource("public-cert.crt");
         Resource signingKeyResource = new ClassPathResource("private-key.key");
 
@@ -54,42 +63,27 @@ public class SecurityConfig {
             RSAPrivateKey rpKey = RsaKeyConverters.pkcs8().convert(is);
             final Saml2X509Credential rpSigningCredentials = Saml2X509Credential.signing(rpKey, rpCertificate);
 
-            String apCertString =  "MIICmzCCAYMCBgGRxllLrjANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDDAZtYXN0ZXIwHhcNMjQwOTA2MDc1ODQ2WhcNMzQwOTA2MDgwMDI2WjARMQ8wDQYDVQQDDAZtYXN0ZXIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCMUOVookEWSbzTVP1NX2ZIS1HrjMsF8TKyPOYnVcf/fFgGga+rp2DucAJkSb/5hGrn+xGYoQVI+kLHwwsss/bQpNShA6Lzp5WsZpvfR5XEjEBYBRtkL2uI+SOCwe76dlV5G9OYuHQfp/1q93Mi8Aj/+BNZ4YJaKrVci2PmYR/wkcpO1QYuU5mxu+kaYKKEiuglb25YVNjfgOmIfe6+jYSmvbZWq8ABC3w0+GuB9f83dfRER7W1101nxPyUDe+ncrHnrCpmJyUo19X1zwjMGDP55tpZonrbAZwnZbDH2DLcRZHtnqePWABIbLRn4MML57WRJMcHbLtgik4ZiBrmBgYzAgMBAAEwDQYJKoZIhvcNAQELBQADggEBABc5Zsbtmu4ZujNcamOld2yMWNS23v71tiFBZ5AugwgpNPnFdFCGBlLa4wzMqlWSsIsHBTYbEriOO6eH0SHc/OKPoFfJLsLlgPfy21Aq6usuU4RWvG9eX7baCmehRh/Lv0JsK2OoBL5HmauwQwYY5vbOyRIzbYXVut/hamZ5hmbCaUR47sTKLHxjIylOEhQ62P99l4zWokU8ZVmvPC7Ubbsquysg9pbEk3SNY2XWoJIt2mLlqdk274uDvEqFZHEItNrHiVvU8/HvrlAX+zyQM+CyYDGVoJf2AYF61XQCsnLBioIVrPU2sHg8oxfXWIZ1pwIlNTOVdtN71XsxIyyFjxs=";
+            String apCertString = "MIICpTCCAY0CBgGRxlxSUjANBgkqhkiG9w0BAQsFADAWMRQwEgYDVQQDDAtwcmF5YWdyZWFsbTAeFw0yNDA5MDYwODAyMDRaFw0zNDA5MDYwODAzNDRaMBYxFDASBgNVBAMMC3ByYXlhZ3JlYWxtMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1SeNn9ms+sKnx0WXQotLI8titP+ROsLgp3YT+2p2sfI5TAQyLTkQ2mf1zVWa/tXsfh3Cgy88sKuazJf9A/Xt5ehyiW+s7+CpQYoImajFso8QhQ1TeU+uWByioGvprtRrphCcQbqKbZQGerNSiBilm6jipTYDxw9jgLEcaVEHgaFeYL6zRPhR7wsEbcc7RCp9t3FdL2y0XwQfOOGlOeLADDAWpwG0kWSfeOSi+q5719tY/zyKi1v0yV7IOHbPS1KTFbKl1DVq/MsoiGxhqiPJVXDIIY1u96QDo8HKMhoo2SoBN33EavmZWWwPKRNRqY1xMEaSlntPiXFzD4NSoU8tBwIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQB9is9Uedtx6yDSKPYmP2+jevqrT3s4MqotINg7FL4ei7yB37voteBZ+kGhthAJEksI71tDn3oU3HMKPBhPHLtSMJvOGLBIEbfMOjeHXZJQuAvf222DikcHctrUXgiyj1jCSDGUkD86frghJAy61Dn1WRkbXpOPqcRJZEWNEkC6CInksWzkcDRLq67bIqWq+6TLxv1YM2kYK1i0YayQTvSkyFTZ3soQMRQXWI67hp/Xas27VJrRVyDsqyyA0fQcrL22WB+gYpfuE1M6PDG49Z4kNlmwMb3OSg9Tp4m7u2xRWA87X8RAcj1nPP7LVC7W2Yge0IgbUHtVpGIbjsTMN8gA";
 
-            X509Certificate apCert = X509Support.decodeCertificate(apCertString.getBytes());
+            X509Certificate apCert = X509Support.decodeCertificate(apCertString);
             Saml2X509Credential apCredential = Saml2X509Credential.verification(apCert);
 
             RelyingPartyRegistration registration = RelyingPartyRegistrations
-                    .fromMetadataLocation("metadataLocation")
-                    .registrationId("saml-app")
-                    .singleLogoutServiceLocation("{baseUrl}/logout/saml2/slo")
+                    .fromMetadataLocation("http://localhost:9999/realms/prayagrealm/protocol/saml/descriptor")
+                    .entityId("checkwithprayag-saml-app")
+                    .registrationId("keycloak-9999")
                     .signingX509Credentials(c -> c.add(rpSigningCredentials))
                     .assertingPartyDetails(party -> party
                             .wantAuthnRequestsSigned(true)
                             .verificationX509Credentials(c -> c.add(apCredential))
                     )
+                    .assertionConsumerServiceLocation("http://localhost:8888/login/saml2/sso/keycloak")
                     .build();
             return new InMemoryRelyingPartyRegistrationRepository(registration);
+        } catch (IOException | CertificateException e) {
+            throw new RuntimeException(e);
         }
     }
 
-//
-//        @Bean
-//    public RelyingPartyRegistrationRepository relyingPartyRegistrationRepository() {
-//        RelyingPartyRegistration registration = RelyingPartyRegistration
-//                .withRegistrationId("keycloak")
-//                .assertionConsumerServiceLocation("http://localhost:8080/login/saml2/sso/keycloak")
-//                .entityId("http://localhost:8080/realms/master")
-//                .("http://localhost:8080/realms/master/protocol/saml")
-//                .signingX509Credentials(c -> c.addSigningX509Credential(
-//                        X509Credential.builder()
-//                                .privateKey("classpath:private.key")
-//                                .certificate("classpath:public-cert.crt")
-//                                .build()
-//                ))
-//                .build();
-//
-//        return new InMemoryRelyingPartyRegistrationRepository(registration);
-//    }
 }
 

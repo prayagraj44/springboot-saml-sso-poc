@@ -6,7 +6,18 @@ saml2:
 
 logging:
   level:
-    org.springframework.security.saml2: DEBUG
+    org:
+      springframework:
+        security:
+          saml2: DEBUG
+          web: DEBUG
 
 server:
-  port:8888
+  port: 8888
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
