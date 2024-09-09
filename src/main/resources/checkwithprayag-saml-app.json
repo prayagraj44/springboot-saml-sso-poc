@@ -1,0 +1,60 @@
+{
+  "clientId": "checkwithprayag-saml-app",
+  "name": "checkwithprayag-saml-application",
+  "description": "",
+  "rootUrl": "http://localhost:8888",
+  "adminUrl": "",
+  "baseUrl": "",
+  "surrogateAuthRequired": false,
+  "enabled": true,
+  "alwaysDisplayInConsole": true,
+  "clientAuthenticatorType": "client-secret",
+  "redirectUris": [
+    "",
+    "http://localhost:8888/*"
+  ],
+  "webOrigins": [],
+  "notBefore": 0,
+  "bearerOnly": false,
+  "consentRequired": false,
+  "standardFlowEnabled": true,
+  "implicitFlowEnabled": false,
+  "directAccessGrantsEnabled": true,
+  "serviceAccountsEnabled": false,
+  "publicClient": true,
+  "frontchannelLogout": true,
+  "protocol": "saml",
+  "attributes": {
+    "saml.assertion.signature": "false",
+    "saml_assertion_consumer_url_redirect": "http://localhost:8888/login/saml2/sso/keycloak",
+    "saml.force.post.binding": "true",
+    "saml.encrypt": "false",
+    "saml.server.signature": "true",
+    "saml.server.signature.keyinfo.ext": "false",
+    "saml.signing.certificate": "MIIDazCCAlOgAwIBAgIUdnoZTNvfMZumi+gVn4UO2J2O7FkwDQYJKoZIhvcNAQELBQAwRTELMAkGA1UEBhMCQVUxEzARBgNVBAgMClNvbWUtU3RhdGUxITAfBgNVBAoMGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDAeFw0yNDA5MDYwODMxMjlaFw0yNTA5MDYwODMxMjlaMEUxCzAJBgNVBAYTAkFVMRMwEQYDVQQIDApTb21lLVN0YXRlMSEwHwYDVQQKDBhJbnRlcm5ldCBXaWRnaXRzIFB0eSBMdGQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCRRGsWe3b73D+YugGLTMyUiR4EPH9+7pMRRCPVzOGFU/5OcAVKhNkfwjKLafOZWlfedxTX/NFDcdpFGpCkNgn3zd8eIji0rLGBeeZF7w5SnbSdIAnmyMKMxxwNSJAxWuoQJlkisen3dmBwL6RPf/LDGjPTZHjsWDxQ9R3ec813demtHdxigH0Bzhk3D5DDfdST2BIDnmdTj7SmWlVurL70jy9EFqvj7fpzgvfJcz9hgizTv+3wuiNobOUeU5KngnLUYpI9MpPI2bpHJMu50yk5Ellx/YSL020n6aK8eeSdY2A0IyCUtTxxNZkmyXmDVCtNUDr3mRWywz7euoAInpOvAgMBAAGjUzBRMB0GA1UdDgQWBBRFGi+4HZaDRaxSPkOe+/b6z6FmTTAfBgNVHSMEGDAWgBRFGi+4HZaDRaxSPkOe+/b6z6FmTTAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQBoC0+IToMxbDhucz45VdjhmpvnEjomp18UOGSCBSExXfnCN4ivIVcx4gGvnkpoECb2llnJiLfjnPTGUT3y7xMEyjaWTsWbwSyRPJVpLPbWVie76aZh5ro5fKZG6GT2AQRPYKVuszdgq8jW31S0k05LcrfqXs3ipJy5F54Ra5wj9T+E6p6JL1nh11VowJt3itz3eE+2oglDGL/UXw1M++SmjsVLkXiOM3kiVjFxX5vgjSZGd34PGw922fQEdQP8ZG5qx5HSmkkrD5xyM6PxD0mAqe7zncAnKwKJzSpaqlCydyo4UxDsKfqvgX/CQIRKuDJdz7s+tCDCSV2YjrFylQhY",
+    "saml.artifact.binding.identifier": "dz1I/hQlu/5JdRzueKIEbaPbdp0=",
+    "saml.artifact.binding": "false",
+    "saml.signature.algorithm": "RSA_SHA256",
+    "saml_force_name_id_format": "false",
+    "saml.client.signature": "true",
+    "saml.authnstatement": "true",
+    "display.on.consent.screen": "false",
+    "saml_name_id_format": "email",
+    "saml.allow.ecp.flow": "false",
+    "saml_signature_canonicalization_method": "http://www.w3.org/2001/10/xml-exc-c14n#",
+    "saml.onetimeuse.condition": "false",
+    "saml.server.signature.keyinfo.xmlSigKeyInfoKeyNameTransformer": "NONE"
+  },
+  "authenticationFlowBindingOverrides": {},
+  "fullScopeAllowed": true,
+  "nodeReRegistrationTimeout": -1,
+  "defaultClientScopes": [
+    "role_list"
+  ],
+  "optionalClientScopes": [],
+  "access": {
+    "view": true,
+    "configure": true,
+    "manage": true
+  }
+}
