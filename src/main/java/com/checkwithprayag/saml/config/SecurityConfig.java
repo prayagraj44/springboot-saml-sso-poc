@@ -10,10 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.converter.RsaKeyConverters;
 import org.springframework.security.saml2.core.Saml2X509Credential;
-import org.springframework.security.saml2.provider.service.registration.InMemoryRelyingPartyRegistrationRepository;
-import org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistration;
-import org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrationRepository;
-import org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrations;
+import org.springframework.security.saml2.provider.service.registration.*;
 import org.springframework.security.web.SecurityFilterChain;
 
 import java.io.IOException;
@@ -26,22 +23,6 @@ import java.security.interfaces.RSAPrivateKey;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .authorizeHttpRequests(authorize -> authorize
-//                        .requestMatchers("/ping").permitAll()
-//                        .requestMatchers("/").permitAll()
-//                        .requestMatchers("**").authenticated()
-//                )
-//                .logout(logout -> logout
-//                        .logoutUrl("/")
-//                )
-//                .saml2Login(withDefaults())
-//                .saml2Logout(withDefaults());
-//        return http.build();
-//    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -77,6 +58,7 @@ public class SecurityConfig {
                     .signingX509Credentials(c -> c.add(rpSigningCredentials))
                     .assertingPartyDetails(party -> party
                             .wantAuthnRequestsSigned(true)
+                            .singleSignOnServiceBinding(Saml2MessageBinding.POST) //in some cases getting issue of cert not getting included in authn request xml after adding this it should resolve
                             .verificationX509Credentials(c -> c.add(apCredential))
                     )
                     .assertionConsumerServiceLocation("http://localhost:8888/login/saml2/sso/keycloak")
