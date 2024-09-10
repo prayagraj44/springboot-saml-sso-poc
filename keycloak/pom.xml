@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.checkwithprayag</groupId>
-	<artifactId>saml</artifactId>
+	<artifactId>keycloak</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>saml-sso-keycloak</name>
 	<description>POC project for saml sso </description>
