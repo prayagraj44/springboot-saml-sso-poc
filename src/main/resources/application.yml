@@ -1,8 +1,11 @@
-saml2:
-  rp:
-    signing:
-      cert-location: "classpath:private.key"
-      key-location: "classpath:private.key"
+server:
+  port: 8888
+
+#saml2:
+#  rp:
+#    signing:
+#      cert-location: "classpath:private.key"
+#      key-location: "classpath:private.key"
 
 logging:
   level:
@@ -11,10 +14,6 @@ logging:
         security:
           saml2: DEBUG
           web: DEBUG
-
-server:
-  port: 8888
-
 
 management:
   endpoints:
