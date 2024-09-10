@@ -11,7 +11,7 @@
 	<groupId>com.checkwithprayag</groupId>
 	<artifactId>saml</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>saml</name>
+	<name>saml-sso-keycloak</name>
 	<description>POC project for saml sso </description>
 	<url/>
 	<licenses>
