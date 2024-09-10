@@ -11,3 +11,7 @@ bin\kc.bat start-dev --http-port=9999
 
 ##linux or wsl2 or git bash win
 ./bin/kc.sh start-dev --http-port=9999
+
+http://localhost:8888/saml2/service-provider-metadata/keycloak
+
+http://localhost:8888/saml2/metadata/keycloak
