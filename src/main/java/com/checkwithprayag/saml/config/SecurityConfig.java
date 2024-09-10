@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.converter.RsaKeyConverters;
@@ -46,7 +47,8 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
-                .saml2Login(saml2 -> saml2.relyingPartyRegistrationRepository(relyingPartyRegistrations()));
+                .saml2Login(saml2 -> saml2.relyingPartyRegistrationRepository(relyingPartyRegistrations()))
+                .saml2Metadata(Customizer.withDefaults());
         return http.build();
     }
 
