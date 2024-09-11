@@ -1,0 +1,17 @@
+
+spring:
+  application :
+    name : okta
+  security:
+    saml2:
+      relyingparty:
+        registration:
+          okta:
+            signing.credentials:
+              - private-key-location: "classpath:private.key"
+                certificate-location: "classpath:okta_cert.pem"
+            identityprovider:
+              entity-id: ""
+              sso-url: ""
+              verification.credentials:
+                - certificate-location: "classpath:okta_cert.pem"
