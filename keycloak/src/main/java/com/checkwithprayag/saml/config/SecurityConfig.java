@@ -8,6 +8,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.converter.RsaKeyConverters;
 import org.springframework.security.saml2.core.Saml2X509Credential;
 import org.springframework.security.saml2.provider.service.registration.*;
@@ -33,6 +34,9 @@ public class SecurityConfig {
                 .saml2Logout(Customizer.withDefaults()) // for slo saml2
                 .logout(logout -> logout.logoutSuccessUrl("/login"))  // any redirect url after successful logout
                 .saml2Metadata(Customizer.withDefaults());
+
+//      http.csrf(AbstractHttpConfigurer::disable); //
+
         return http.build();
     }
 
