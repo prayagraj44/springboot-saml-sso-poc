@@ -14,6 +14,6 @@ public class SAMLMaintenanceController {
 
     @PostMapping("/ping-sso-logout") // <- POST method since default Saml2LogoutConfigurer config is hardcoded to POST
     public String samlLogoutTest() {
-        return "SAML SSO Login Successful!";
+        return "SAML SLO Logout Successful!";
     }
 }
