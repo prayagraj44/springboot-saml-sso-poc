@@ -29,6 +29,7 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
                 .saml2Login(saml2 -> saml2.relyingPartyRegistrationRepository(relyingPartyRegistrations()))
+                .saml2Logout(Customizer.withDefaults()) // for slo saml2
                 .saml2Metadata(Customizer.withDefaults());
         return http.build();
     }
