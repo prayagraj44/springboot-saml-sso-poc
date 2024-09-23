@@ -29,9 +29,9 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
                 .saml2Login(saml2 -> saml2.relyingPartyRegistrationRepository(relyingPartyRegistrations()))
-                .saml2Logout(logout -> logout.logoutUrl("/ping-sso-logout"))
+//              .saml2Logout(logout -> logout.logoutUrl("/ping-sso-logout")) // not working, redirection happening but logout request to IDP not happening need to check
                 .saml2Logout(Customizer.withDefaults()) // for slo saml2
-                .logout(logout-> logout.logoutSuccessUrl("/login"))  // any redirect url after successful logout
+                .logout(logout -> logout.logoutSuccessUrl("/login"))  // any redirect url after successful logout
                 .saml2Metadata(Customizer.withDefaults());
         return http.build();
     }
@@ -64,8 +64,8 @@ public class SecurityConfig {
                             .singleSignOnServiceBinding(Saml2MessageBinding.POST) //in some cases getting issue of cert not getting included in authn request xml after adding this it should resolve
                             .verificationX509Credentials(c -> c.add(apCredential))
                     )
-                    .assertionConsumerServiceLocation("http://localhost:8888/login/saml2/sso/keycloak") // <- default asc url for spring-security-saml2-service-provider
-                    .singleLogoutServiceLocation("http://localhost:8888/logout/saml2/slo")  // <- default slo  url for spring-security-saml2-service-provider
+                    .assertionConsumerServiceLocation("http://localhost:8888/login/saml2/sso/keycloak") // <- default ACS url for spring-security-saml2-service-provider
+                    .singleLogoutServiceLocation("http://localhost:8888/logout/saml2/slo")  // <- default SLO  url for spring-security-saml2-service-provider
                     .build();
             return new InMemoryRelyingPartyRegistrationRepository(registration);
         } catch (IOException | CertificateException e) {
