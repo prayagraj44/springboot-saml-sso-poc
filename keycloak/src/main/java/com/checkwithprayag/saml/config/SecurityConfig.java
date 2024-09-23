@@ -29,6 +29,7 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
                 .saml2Login(saml2 -> saml2.relyingPartyRegistrationRepository(relyingPartyRegistrations()))
+                .saml2Logout(logout -> logout.logoutUrl("/ping-sso-logout"))
                 .saml2Logout(Customizer.withDefaults()) // for slo saml2
                 .logout(logout-> logout.logoutSuccessUrl("/login"))  // any redirect url after successful logout
                 .saml2Metadata(Customizer.withDefaults());
