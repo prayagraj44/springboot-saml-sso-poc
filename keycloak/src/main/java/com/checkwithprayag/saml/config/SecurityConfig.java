@@ -36,6 +36,7 @@ public class SecurityConfig {
                 .saml2Metadata(Customizer.withDefaults());
 
 //      http.csrf(AbstractHttpConfigurer::disable); //
+        http.cors(AbstractHttpConfigurer::disable);//
 
         return http.build();
     }
