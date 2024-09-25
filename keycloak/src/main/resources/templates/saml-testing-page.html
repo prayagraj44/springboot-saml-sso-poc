@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="[http://www.thymeleaf.org](http://www.thymeleaf.org/)">
+<head>
+    <title>SAML Testing Page</title>
+
+    <meta>
+    <style>
+        html {background-color: #FEF9D9}
+
+      .btn-info{
+      font-size: 16px;
+          font-weight: bold;
+          border-radius: 30px;
+          border-width: 0;
+          margin-top: 15px;
+          padding: 10px 32px;
+          color: white;
+          background-color: #8EACCD;
+      }
+    </style>
+    </meta>
+
+</head>
+<body>
+<h1>SAML Tester</h1>
+
+<form th:action="@{/ping-sso-logout}" method="post">
+    <button class="btn btn-info" type="submit">log me out!</button>
+</form>
+
+</body>
+</html>

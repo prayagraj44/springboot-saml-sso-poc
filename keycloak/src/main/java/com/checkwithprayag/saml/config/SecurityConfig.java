@@ -30,8 +30,8 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
                 .saml2Login(saml2 -> saml2.relyingPartyRegistrationRepository(relyingPartyRegistrations()))
-//              .saml2Logout(logout -> logout.logoutUrl("/ping-sso-logout")) // not working, redirection happening but logout request to IDP not happening need to check
-                .saml2Logout(Customizer.withDefaults()) // for slo saml2
+              .saml2Logout(logout -> logout.logoutUrl("/ping-sso-logout")) // not working, redirection happening but logout request to IDP not happening need to check
+                .saml2Logout(Customizer.withDefaults()) // default spring  /logout endpoint
                 .logout(logout -> logout.logoutSuccessUrl("/login"))  // any redirect url after successful logout
                 .saml2Metadata(Customizer.withDefaults());
 
